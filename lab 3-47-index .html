@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名著展销平台 - 文学经典</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 头部区域 */
+        header {
+            background: linear-gradient(to right, #2c3e50, #34495e);
+            padding: 20px;
+            overflow: hidden;
+            border-bottom: 3px solid #1a252f;
+        }
+        
+        .logo {
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .logo span {
+            color: #f1c40f;
+        }
+        
+        /* 导航菜单 - 浮动布局 */
+        nav {
+            float: right;
+            margin-top: 10px;
+        }
+        
+        nav ul {
+            list-style: none;
+        }
+        
+        nav ul li {
+            float: left;
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* 主体内容区 - 浮动三栏布局 */
+        .main-content {
+            overflow: hidden;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        /* 左侧栏 - 名著分类导航 */
+        .sidebar-left {
+            float: left;
+            width: 20%;
+            padding: 15px;
+            background-color: #f9f3e9;
+            border-radius: 8px;
+            margin-right: 2%;
+            position: relative;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-left h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .category-list li:hover {
+            background-color: #e8d8c3;
+            transform: translateX(5px);
+        }
+        
+        /* 中间栏 - 名著展示区 */
+        .content-middle {
+            float: left;
+            width: 56%;
+            margin-right: 2%;
+        }
+        
+        /* 经典名著 - 浮动排列 */
+        .classic-books {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fffaf0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .classic-books h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .book-list {
+            overflow: hidden;
+        }
+        
+        .book-item {
+            float: left;
+            width: 30%;
+            margin-right: 5%;
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .book-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .book-item:nth-child(3n) {
+            margin-right: 0;
+        }
+        
+        .book-cover {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            background-color: #e8d8c3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .book-item:hover .book-cover img {
+            transform: scale(1.05);
+        }
+        
+        .book-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .book-price {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        /* 新书上市 - Table布局 */
+        .new-classics {
+            padding: 20px;
+            background-color: #fffaf0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .new-classics h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e8d8c3;
+        }
+        
+        th {
+            background-color: #f9f3e9;
+            color: #2c3e50;
+        }
+        
+        tr:hover {
+            background-color: #f9f3e9;
+            cursor: pointer;
+        }
+        
+        /* 右侧栏 - 促销信息 */
+        .sidebar-right {
+            float: left;
+            width: 20%;
+            padding: 15px;
+            background-color: #f9f3e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-right h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .promotion-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .promotion-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .promotion-tag {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        /* 底部区域 */
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 3px solid #1a252f;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .container {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-left, .content-middle, .sidebar-right {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .book-item {
+                width: 45%;
+            }
+            
+            .book-item:nth-child(3n) {
+                margin-right: 5%;
+            }
+            
+            .book-item:nth-child(2n) {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部区域 -->
+        <header>
+            <div class="logo">文学<span>经典</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">名著分类</a></li>
+                    <li><a href="#">经典推荐</a></li>
+                    <li><a href="#">新书上市</a></li>
+                    <li><a href="#">促销活动</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- 主体内容区 -->
+        <div class="main-content">
+            <!-- 左侧栏 -->
+            <aside class="sidebar-left">
+                <h3>名著分类</h3>
+                <ul class="category-list">
+                    <li>中国古典文学</li>
+                    <li>世界文学名著</li>
+                    <li>诺贝尔文学奖</li>
+                    <li>现代文学经典</li>
+                    <li>诗歌散文</li>
+                    <li>戏剧文学</li>
+                    <li>儿童文学经典</li>
+                    <li>科幻奇幻文学</li>
+                    <li>历史传记</li>
+                    <li>哲学思想</li>
+                </ul>
+            </aside>
+            
+            <!-- 中间栏 -->
+            <section class="content-middle">
+                <!-- 经典名著 -->
+                <div class="classic-books">
+                    <h3>经典名著</h3>
+                    <div class="book-list">
+                        <div class="book-item">
+                            <div class="book-cover">
+                                <img src="images/hongloumeng.jpg" alt="红楼梦封面">
+                            </div>
+                            <div class="book-title">红楼梦</div>
+                            <div class="book-author">作者：曹雪芹</div>
+                            <div class="book-price">¥68.00</div>
+                        </div>
+                        <div class="book-item">
+                            <div class="book-cover">
+                                <img src="images/war_and_peace.jpg" alt="战争与和平封面">
+                            </div>
+                            <div class="book-title">战争与和平</div>
+                            <div class="book-author">作者：列夫·托尔斯泰</div>
+                            <div class="book-price">¥78.00</div>
+                        </div>
+                        <div class="book-item">
+                            <div class="book-cover">
+                                <img src="images/one_hundred_years.jpg" alt="百年孤独封面">
+                            </div>
+                            <div class="book-title">百年孤独</div>
+                            <div class="book-author">作者：加西亚·马尔克斯</div>
+                            <div class="book-price">¥59.80</div>
+                        </div>
+                        <div class="book-item">
+                            <div class="book-cover">
+                                <img src="images/pride_and_prejudice.jpg" alt="傲慢与偏见封面">
+                            </div>
+                            <div class="book-title">傲慢与偏见</div>
+                            <div class="book-author">作者：简·奥斯汀</div>
+                            <div class="book-price">¥45.00</div>
+                        </div>
+                        <div class="book-item">
+                            <div class="book-cover">
+                                <img src="images/old_man_and_sea.jpg" alt="老人与海封面">
+                            </div>
+                            <div class="book-title">老人与海</div>
+                            <div class="book-author">作者：海明威</div>
+                            <div class="book-price">¥36.50</div>
+                        </div>
+                        <div class="book-item">
+                            <div class="book-cover">
+                                <img src="images/fortress_besieged.jpg" alt="围城封面">
+                            </div>
+                            <div class="book-title">围城</div>
+                            <div class="book-author">作者：钱钟书</div>
+                            <div class="book-price">¥42.00</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 新书上市 -->
+                <div class="new-classics">
+                    <h3>新书上市</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>书名</th>
+                                <th>作者</th>
+                                <th>出版社</th>
+                                <th>价格</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>追风筝的人</td>
+                                <td>卡勒德·胡赛尼</td>
+                                <td>上海人民出版社</td>
+                                <td>¥49.80</td>
+                            </tr>
+                            <tr>
+                                <td>小王子</td>
+                                <td>安托万·德·圣-埃克苏佩里</td>
+                                <td>人民文学出版社</td>
+                                <td>¥32.00</td>
+                            </tr>
+                            <tr>
+                                <td>1984</td>
+                                <td>乔治·奥威尔</td>
+                                <td>北京十月文艺出版社</td>
+                                <td>¥45.50</td>
+                            </tr>
+                            <tr>
+                                <td>飘</td>
+                                <td>玛格丽特·米切尔</td>
+                                <td>译林出版社</td>
+                                <td>¥88.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- 右侧栏 -->
+            <aside class="sidebar-right">
+                <h3>促销信息</h3>
+                <div class="promotion-item">
+                    <span class="promotion-tag">限时优惠</span>
+                    <h4>世界名著套装7折</h4>
+                    <p>活动时间：10月1日-10月31日</p>
+                </div>
+                <div class="promotion-item">
+                    <span class="promotion-tag">新品特惠</span>
+                    <h4>诺贝尔文学奖作品8折</h4>
+                    <p>仅限本月新上架图书</p>
+                </div>
+                <div class="promotion-item">
+                    <span class="promotion-tag">会员专享</span>
+                    <h4>会员日双倍积分</h4>
+                    <p>每月15日会员专享</p>
+                </div>
+                <div class="promotion-item">
+                    <span class="promotion-tag">经典特惠</span>
+                    <h4>中国古典文学6折</h4>
+                    <p>精选古典文学特惠</p>
+                </div>
+            </aside>
+        </div>
+        
+        <!-- 底部区域 -->
+        <footer>
+            <p>© 2023 文学经典 版权所有 | 地址：北京市海淀区文学路123号 | 电话：010-87654321</p>
+        </footer>
+    </div>
+</body>
+</html>
